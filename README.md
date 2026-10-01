@@ -101,7 +101,7 @@ Dans l'onglet ```Exec```, il faut :
     ```
     Le résultat devrait être : `Empty set (0.00 sec)`
 
-La capture d'écran ci-dessous résume les étapes précédentes : 
+La capture d'écran ci-dessous résume les étapes précédentes :
 
 ![2-docker-desktop-bdd](pictures/2-docker-desktop-bdd.png)
 

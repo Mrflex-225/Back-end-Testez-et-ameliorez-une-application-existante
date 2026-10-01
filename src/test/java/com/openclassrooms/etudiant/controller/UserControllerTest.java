@@ -35,7 +35,7 @@ public class UserControllerTest {
 
 
     @Container
-    static MySQLContainer mySQLContainer = new MySQLContainer("mysql:latest");
+    static MySQLContainer mySQLContainer = new MySQLContainer("mysql:8.0");
 
     @Autowired
     private UserService userService;
@@ -52,7 +52,6 @@ public class UserControllerTest {
         registry.add("spring.datasource.username", () -> mySQLContainer.getUsername());
         registry.add("spring.datasource.password", () -> mySQLContainer.getPassword());
         registry.add("spring.jpa.hibernate.ddl-auto", () -> "create");
-
     }
 
     @AfterEach

@@ -14,6 +14,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,6 +30,8 @@ public class UserServiceTest {
     private UserRepository userRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private JwtService jwtService;
     @InjectMocks
     private UserService userService;
 
@@ -74,5 +78,55 @@ public class UserServiceTest {
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         verify(userRepository).save(userCaptor.capture());
         assertThat(userCaptor.getValue()).isEqualTo(user);
+    }
+
+    /**
+     * Vérifie qu'un utilisateur existant
+     * peut être récupéré par son identifiant.
+     */
+
+
+
+    /**
+     * Vérifie qu'un login valide retourne un JWT.
+     */
+    @Test
+    public void test_login_user() {
+
+        // GIVEN
+        User user = new User();
+
+        user.setLogin(LOGIN);
+        user.setPassword(PASSWORD);
+
+        when(userRepository.findByLogin(LOGIN))
+                .thenReturn(Optional.of(user));
+
+        when(
+                passwordEncoder.matches(
+                        PASSWORD,
+                        PASSWORD
+                )
+        ).thenReturn(true);
+
+        when(jwtService.generateToken(user))
+                .thenReturn("jwt-token");
+
+
+        // WHEN
+        String result =
+                userService.login(
+                        LOGIN,
+                        PASSWORD
+                );
+
+
+        // THEN
+        assertNotNull(result);
+
+        assertEquals(
+                "jwt-token",
+                result
+        );
     }
 }
